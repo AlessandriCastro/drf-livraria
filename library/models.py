@@ -3,7 +3,7 @@ from django.db import models
 
 class Author(models.Model):
     nome = models.CharField(max_length= 100)
-    aniversario = models.IntegerField(null=True,blank=True, verbose_name="Ano de Nascimento")
+    aniversario = models.DateField(null=True,blank=True, verbose_name="Ano de Nascimento")
     email=models.EmailField(null=True, blank=True)
     bio= models.TextField(null=True, blank= True)
     nacionalidade = models.CharField(max_length=50, null=True,blank=True)
@@ -18,7 +18,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     titulo = models.CharField(max_length= 100)
-    ano_publicacao = models.PositiveIntegerField()
+    ano_publicacao = models.PositiveIntegerField(max_length=4)
     editora= models.CharField(max_length= 50, null= True, blank= True)
     qtd_paginas= models.IntegerField(null= True, blank = True)
     sinopse = models.TextField(null= True, blank=True)

@@ -48,15 +48,17 @@ class AuthorViewSet(viewsets.ViewSet):
         
         serializer = AuthorSerializer(top_5_apenas_autores, many = True)
         return Response(serializer.data)
-     
+
+
     @swagger_auto_schema(**AuthorSwaggerDocs.create_docs)
     def create(self,request):
         serializer= AuthorSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     
+
     @swagger_auto_schema(**AuthorSwaggerDocs.retrieve_docs)
     def retrieve(self, request, pk):
         try:
@@ -69,21 +71,23 @@ class AuthorViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
         
+
     @swagger_auto_schema(**AuthorSwaggerDocs.partial_update_docs)
     def partial_update(self, request, pk):
         try:
             author = Author.objects.get(pk=pk)
             serializer = AuthorSerializer(author, data= request.data, partial=True)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
         except Author.DoesNotExist:
             return Response(
                 {'error':'Autor não encontrado'},
                 status=status.HTTP_404_NOT_FOUND
             )
         
+
     @swagger_auto_schema(**AuthorSwaggerDocs.destroy_docs)
     def destroy(self, request, pk):
         try:
@@ -128,10 +132,10 @@ class BookViewSet(viewsets.ViewSet):
     @swagger_auto_schema(**BookSwaggerDocs.create_docs)
     def create(self,request):
         serializer= BookSerializer(data= request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     
     @swagger_auto_schema(**BookSwaggerDocs.retrieve_docs)
     def retrieve(self, request, pk):
@@ -150,10 +154,10 @@ class BookViewSet(viewsets.ViewSet):
         try:
             book = Book.objects.get(pk=pk)
             serializer = BookSerializer(book, data= request.data, partial=True)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
         except Book.DoesNotExist:
             return Response(
                 {'error':'livro não encontrado'},

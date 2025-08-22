@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from .models import Author,Book
 from .serializers import AuthorSerializer, BookSerializer
 from .swagger import AuthorSwaggerDocs, BookSwaggerDocs
+from .telegram_bot import notificar_autor_criado
 
 class AuthorViewSet(viewsets.ViewSet):
     @swagger_auto_schema(**AuthorSwaggerDocs.list_docs)        
@@ -54,7 +55,15 @@ class AuthorViewSet(viewsets.ViewSet):
     def create(self,request):
         serializer= AuthorSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            autor=serializer.save()
+
+            print("🎯 TENTANDO ENVIAR NOTIFICAÇÃO...")
+            try:
+                notificar_autor_criado(autor)
+            except Exception as e:
+                print(f"❌ ERRO NA NOTIFICAÇÃO: {e}")
+
+                notificar_autor_criado(autor)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
     

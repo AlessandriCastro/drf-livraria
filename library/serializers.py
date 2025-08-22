@@ -7,7 +7,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Author
-        fields = ['id','nome','aniversario', 'nacionalidade', 'books']
+        fields = ['id','nome','email','aniversario', 'nacionalidade', 'books']
     
     def validate_aniversario(self, value):
         hoje = date.today()

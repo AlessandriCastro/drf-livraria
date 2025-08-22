@@ -142,3 +142,7 @@ Thumbs.db
 
 # Database
 *.db
+*.sql         
+backup.sql     
+dumps/          
+*.dump  

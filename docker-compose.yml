@@ -13,6 +13,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   web:
     build: .
@@ -25,6 +26,7 @@ services:
     volumes:
       - .:/app
     command: python manage.py runserver 0.0.0.0:8000
+    restart: unless-stopped
 
 volumes:
   postgres_data:
